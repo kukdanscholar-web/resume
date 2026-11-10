@@ -1,0 +1,99 @@
+.cloud {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* 글씨가 화면 너비(100cqw)만큼 이동할 수 있도록 기준 컨테이너로 지정한다. */
+  container-type: size;
+  animation: appear 0.6s ease-out both;
+}
+
+.hint {
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 15px;
+  transition: opacity 0.2s;
+}
+
+/*
+ * 바깥 span: 오른쪽에서 왼쪽으로 일정한 속도로 지나간다(transform).
+ *            클릭하면 좌우로 흩어진다(translate — transform과 따로 움직인다).
+ * 안쪽 button: 천천히 위아래로 오르내린다.
+ */
+.slot {
+  position: absolute;
+  left: 0;
+  animation: pass var(--travel) linear infinite;
+  animation-delay: var(--start);
+  transition: translate 0.52s cubic-bezier(0.6, 0, 0.9, 0.4), opacity 0.52s ease-in;
+}
+
+/* 움직이는 글씨를 누르기 쉽도록, 마우스를 올리면 그 글씨는 멈춘다. */
+.slot:hover {
+  animation-play-state: paused;
+}
+
+.word {
+  display: block;
+  padding: 6px 10px;
+  white-space: nowrap;
+  line-height: 1.1;
+  animation: bob var(--bob) ease-in-out infinite alternate;
+  animation-delay: var(--phase);
+  transition: filter 0.2s, scale 0.2s;
+}
+
+.word:hover {
+  filter: saturate(1.8) brightness(0.8);
+  scale: 1.08;
+}
+
+.scattering .slot {
+  translate: calc(var(--dir) * 110cqw) 0;
+  opacity: 0;
+}
+
+.scattering .hint {
+  opacity: 0;
+}
+
+@keyframes pass {
+  from {
+    transform: translateX(100cqw);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(-14px);
+  }
+  to {
+    transform: translateY(14px);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud,
+  .slot,
+  .word {
+    animation: none;
+    transition: none;
+  }
+
+  .slot {
+    left: var(--x);
+  }
+}

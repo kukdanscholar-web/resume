@@ -1,0 +1,58 @@
+.title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 26px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.label {
+  padding: 6px 18px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  animation: pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+/* 제자리에서 끄적이다가 --write-time이 지나면 사라진다. */
+.pencil {
+  display: inline-block;
+  font-size: 30px;
+  transform: scaleX(-1);
+  animation:
+    scribble 0.22s ease-in-out infinite alternate,
+    vanish 0.25s var(--write-time) ease-in forwards;
+}
+
+@keyframes scribble {
+  from {
+    transform: translate(-5px, 3px) scaleX(-1) rotate(-8deg);
+  }
+  to {
+    transform: translate(6px, -3px) scaleX(-1) rotate(6deg);
+  }
+}
+
+@keyframes vanish {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label {
+    animation: none;
+  }
+
+  .pencil {
+    display: none;
+  }
+}

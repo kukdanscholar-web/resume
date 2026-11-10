@@ -1,0 +1,91 @@
+.section {
+  height: 100%;
+  padding: 80px 7% 40px;
+  overflow-y: auto;
+}
+
+.groups {
+  columns: 2 340px;
+  column-gap: 48px;
+  /* 연필이 쓰는 시늉을 마치면 내용 전체가 한 번에 나타난다. */
+  animation: reveal 0.3s var(--write-time) ease-out both;
+}
+
+.group {
+  break-inside: avoid;
+  margin-bottom: 26px;
+}
+
+.heading {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.items,
+.details {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.items > li {
+  margin-bottom: 10px;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 19px;
+}
+
+.meta {
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.details {
+  margin-top: 6px;
+  padding-left: 14px;
+  border-left: 2px solid rgba(44, 42, 39, 0.18);
+}
+
+.details li {
+  margin: 4px 0;
+  color: #4b4742;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.marked {
+  background: linear-gradient(var(--highlight), var(--highlight)) no-repeat left 80% / 0% 55%;
+  animation: mark 0.7s calc(var(--write-time) + 0.45s) ease-out forwards;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mark {
+  to {
+    background-size: 100% 55%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .groups {
+    animation: none;
+  }
+
+  .marked {
+    animation: none;
+    background-size: 100% 55%;
+  }
+}

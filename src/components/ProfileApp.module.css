@@ -1,0 +1,34 @@
+.frame {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  height: 100vh;
+  min-height: 680px;
+  padding: 28px;
+}
+
+.main {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  border: 2.5px solid var(--line);
+  border-radius: 34px;
+}
+
+.back {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  z-index: 2;
+  padding: 8px 16px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 15px;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.back:hover {
+  background: var(--highlight);
+  transform: translateX(-2px);
+}

@@ -1,0 +1,97 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 30px 26px;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 2.5px solid var(--line);
+  border-radius: 34px;
+}
+
+.photo {
+  flex: none;
+  width: 168px;
+  height: 168px;
+  overflow: hidden;
+  border: 2.5px solid var(--line);
+  border-radius: 50%;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+
+.identity {
+  width: 100%;
+  padding: 16px 22px;
+  text-align: left;
+  border: 2.5px solid var(--line);
+  border-radius: 24px;
+}
+
+.name {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.line {
+  min-height: 1.5em;
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 16px;
+}
+
+.menu {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 18px;
+  border: 2.5px solid var(--line);
+  border-radius: 24px;
+}
+
+.menu button {
+  /* 글씨 너비만큼만 차지해야 커질 때 상자 밖으로 넘치지 않는다. */
+  align-self: flex-start;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 26px;
+  border-radius: 12px;
+  background: linear-gradient(var(--highlight), var(--highlight)) no-repeat left 70% / 0% 45%;
+  /* 왼쪽을 기준으로 커져야 글씨가 상자 밖으로 밀려나지 않는다. */
+  transform-origin: left center;
+  transition: scale 0.2s ease-out, background-size 0.25s ease-out;
+}
+
+/* 강조: 글씨가 20% 커지며 30도씩 두 번 기울었다가 돌아온다. */
+.menu button:hover {
+  scale: 1.2;
+  animation: tilt 0.5s ease-in-out 2;
+}
+
+.menu button.active {
+  scale: 1.2;
+  background-size: 100% 45%;
+}
+
+@keyframes tilt {
+  50% {
+    transform: rotate(-30deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu button:hover {
+    animation: none;
+  }
+}

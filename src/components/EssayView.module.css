@@ -1,0 +1,48 @@
+.essay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 80px 10% 60px;
+}
+
+/* 연필이 쓰는 시늉을 마치면 글 전체가 한 번에 나타난다. */
+.text {
+  margin: 0;
+  font-family: var(--font-essay), var(--font-body), serif;
+  font-size: 30px;
+  line-height: 1.9;
+  word-break: keep-all;
+  animation: reveal 0.3s var(--write-time) ease-out both;
+}
+
+/* 형광펜: 배경을 왼쪽에서 오른쪽으로 칠한다. 여러 줄에 걸쳐도 줄마다 칠해진다. */
+.marked {
+  background: linear-gradient(var(--highlight), var(--highlight)) no-repeat left 78% / 0% 58%;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  animation: mark 0.9s calc(var(--write-time) + 0.45s) ease-out forwards;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mark {
+  to {
+    background-size: 100% 58%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text {
+    animation: none;
+  }
+
+  .marked {
+    animation: none;
+    background-size: 100% 58%;
+  }
+}
