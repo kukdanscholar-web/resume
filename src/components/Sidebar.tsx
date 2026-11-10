@@ -29,7 +29,8 @@ export default function Sidebar({ age, activeSectionId, onSelect }: SidebarProps
             aria-current={section.id === activeSectionId ? "page" : undefined}
             onClick={() => onSelect(section.id)}
           >
-            {section.label}
+            <span className={styles.label}>{section.label}</span>
+            <span className={styles.summary}>{section.summary}</span>
           </button>
         ))}
       </nav>

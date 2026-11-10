@@ -91,12 +91,6 @@
     translate: 100% 0;
   }
 
-  /* 처음 2초 동안은 보조화면과 토글 버튼 모두 눌리지 않는다. */
-  .frame[data-intro="true"] .side,
-  .frame[data-intro="true"] .toggle {
-    pointer-events: none;
-  }
-
   /* 화면을 삼키거나 내뱉을 때 버튼이 살짝 부푼다. */
   .frame[data-phase="out"] .toggle,
   .frame[data-phase="in"] .toggle {

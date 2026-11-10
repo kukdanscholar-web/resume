@@ -61,10 +61,16 @@
 }
 
 .menu button {
-  /* 글씨 너비만큼만 차지해야 커질 때 상자 밖으로 넘치지 않는다. */
-  align-self: flex-start;
-  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 14px;
   text-align: left;
+}
+
+.label {
+  display: inline-block;
   font-size: 26px;
   border-radius: 12px;
   background: linear-gradient(var(--highlight), var(--highlight)) no-repeat left 70% / 0% 45%;
@@ -73,13 +79,19 @@
   transition: scale 0.2s ease-out, background-size 0.25s ease-out;
 }
 
-/* 강조: 글씨가 20% 커지며 30도씩 두 번 기울었다가 돌아온다. */
-.menu button:hover {
+.summary {
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* 강조: 제목 글씨가 20% 커지며 30도씩 두 번 기울었다가 돌아온다. */
+.menu button:hover .label {
   scale: 1.2;
   animation: tilt 0.5s ease-in-out 2;
 }
 
-.menu button.active {
+.menu button.active .label {
   scale: 1.2;
   background-size: 100% 45%;
 }
@@ -91,7 +103,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu button:hover {
+  .menu button:hover .label {
     animation: none;
   }
 }

@@ -47,6 +47,8 @@ export interface SectionGroup {
 export interface Section {
   id: SectionId;
   label: string;
+  /** 보조화면의 메뉴 아래에 보이는 한 줄 요약 */
+  summary: string;
   groups: SectionGroup[];
 }
 
@@ -84,6 +86,7 @@ export const sections: Section[] = [
   {
     id: "career",
     label: "경력",
+    summary: "특허법률사무소 주임",
     groups: [
       {
         items: [
@@ -126,6 +129,7 @@ export const sections: Section[] = [
   {
     id: "certs",
     label: "자격",
+    summary: "지식재산권, 경영, AI",
     groups: [
       {
         heading: "AI & IT",
@@ -169,6 +173,7 @@ export const sections: Section[] = [
   {
     id: "skills",
     label: "특기",
+    summary: "PT 발표, 분석 업무",
     groups: [
       {
         items: [

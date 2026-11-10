@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { keywords, sections, type SectionId } from "@/data/content";
 import Sidebar from "./Sidebar";
 import KeywordCloud from "./KeywordCloud";
@@ -22,8 +22,6 @@ type Phase = "idle" | "out" | "in";
 const SCATTER_MS = 520;
 // 화면이 버튼으로 빨려 들어가거나 나오는 시간(ms). ProfileApp.module.css의 애니메이션 시간과 맞춘다.
 const PANEL_MS = 380;
-// 모바일에서 처음에 보조화면을 보여 주는 시간(ms)
-const INTRO_MS = 2000;
 // ProfileApp.module.css의 모바일 기준 너비와 맞춘다.
 const MOBILE_QUERY = "(max-width: 767px)";
 
@@ -34,10 +32,9 @@ function isMobile() {
 export default function ProfileApp({ age }: { age: ReactNode }) {
   const [view, setView] = useState<View>({ type: "cloud" });
   const [scattering, setScattering] = useState(false);
-  const [panel, setPanel] = useState<Panel>("side");
+  // 모바일은 메인화면에서 시작한다.
+  const [panel, setPanel] = useState<Panel>("main");
   const [phase, setPhase] = useState<Phase>("idle");
-  // 모바일의 첫 2초(보조화면을 보여 주는 동안)에는 아무것도 누를 수 없다.
-  const [intro, setIntro] = useState(true);
   const viewTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const panelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -50,17 +47,6 @@ export default function ProfileApp({ age }: { age: ReactNode }) {
       panelTimer.current = setTimeout(() => setPhase("idle"), PANEL_MS);
     }, PANEL_MS);
   }
-
-  // 모바일에서는 보조화면을 2초 보여 준 뒤 메인화면으로 넘어간다.
-  useEffect(() => {
-    panelTimer.current = setTimeout(() => {
-      setIntro(false);
-      if (isMobile()) switchPanel("main");
-    }, INTRO_MS);
-    return () => {
-      if (panelTimer.current) clearTimeout(panelTimer.current);
-    };
-  }, []);
 
   function goTo(next: View) {
     if (viewTimer.current) clearTimeout(viewTimer.current);
@@ -92,7 +78,7 @@ export default function ProfileApp({ age }: { age: ReactNode }) {
   const activeSection = view.type === "section" ? sections.find((section) => section.id === view.sectionId) : undefined;
 
   return (
-    <div className={styles.frame} data-panel={panel} data-phase={phase} data-intro={intro}>
+    <div className={styles.frame} data-panel={panel} data-phase={phase}>
       <button
         type="button"
         className={styles.toggle}
