@@ -8,8 +8,7 @@ Next.js 관련 규칙은 [AGENTS.md](AGENTS.md)도 함께 따른다 (이 버전�
 - 언어: TypeScript, React 19
 - 스타일: CSS Modules + `globals.css` (Tailwind 미사용)
 - 애니메이션: CSS 애니메이션/트랜지션 우선. 라이브러리 추가는 사용자 확인 후.
-- 서버 기능: Route Handler (`src/app/api/.../route.ts`) — 클릭 수 집계 등
-- 저장소: 로컬 개발 단계는 JSON 파일. 배포 방식 확정 시 재검토 (배포 환경에 따라 파일 저장이 유지되지 않을 수 있음).
+- 배포: Vercel 무료(Hobby). GitHub `main`에 푸시하면 자동 배포된다. 서버에 파일을 저장할 수 없다.
 - 실행 환경: Node.js 26, npm
 - 린트: ESLint (`eslint-config-next`)
 - 대상 환경: 데스크탑 브라우저만. 모바일 반응형은 만들지 않는다.
@@ -21,7 +20,7 @@ Next.js 관련 규칙은 [AGENTS.md](AGENTS.md)도 함께 따른다 (이 버전�
 
 ## 폴더 구조
 ```
-src/app/            # 페이지(layout.tsx, page.tsx), 전역 스타일, API(route.ts)
+src/app/            # 페이지(layout.tsx, page.tsx), 전역 스타일
 src/components/     # 화면 컴포넌트 (보조화면, 메인화면, 키워드 구름 등)
 src/data/           # 프로필·키워드·에세이 등 콘텐츠 데이터
 public/             # 사진 등 정적 파일
@@ -34,7 +33,7 @@ firstpaper_display.png   # 화면 초안 (참고용)
 2. 기본은 서버 컴포넌트. 클릭·애니메이션 등 상호작용이 필요한 컴포넌트에만 `"use client"`를 붙인다.
 3. 생년월일은 서버에서만 다루고, 화면과 클라이언트로 전달되는 데이터에는 계산된 나이만 내려보낸다.
 4. 개인정보(전화번호·상세 주소·이메일)를 코드, 로그, 커밋에 넣지 않는다. 공개 정보는 거주 지역(구 단위)까지만.
-5. 클릭 집계 대상은 고유한 `id`를 가진다. API는 요청 값(id 타입·길이)을 검증한다.
+5. 서버에 파일을 쓰는 기능은 만들지 않는다 (Vercel에서 유지되지 않음).
 6. `dangerouslySetInnerHTML`은 쓰지 않는다.
 7. `any` 타입 금지. 데이터 구조는 `type`/`interface`로 정의한다.
 8. 네이밍: 컴포넌트·타입은 `PascalCase`, 변수·함수는 `camelCase`, 상수는 `UPPER_SNAKE_CASE`, CSS 클래스는 `camelCase`(CSS Modules). 컴포넌트 파일명은 `PascalCase.tsx`.

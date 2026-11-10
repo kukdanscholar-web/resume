@@ -196,10 +196,3 @@ export const sections: Section[] = [
     ],
   },
 ];
-
-/** 클릭 수를 집계하는 대상 id 목록 */
-export const CLICK_TARGET_IDS: string[] = [
-  ...keywords.map((keyword) => keyword.id),
-  ...sections.map((section) => `section-${section.id}`),
-  "back",
-];
