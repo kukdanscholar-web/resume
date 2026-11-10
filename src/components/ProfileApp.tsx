@@ -6,12 +6,14 @@ import Sidebar from "./Sidebar";
 import KeywordCloud from "./KeywordCloud";
 import EssayView from "./EssayView";
 import SectionView from "./SectionView";
+import DocumentsView from "./DocumentsView";
 import styles from "./ProfileApp.module.css";
 
 type View =
   | { type: "cloud" }
   | { type: "essay"; keywordId: string }
-  | { type: "section"; sectionId: SectionId };
+  | { type: "section"; sectionId: SectionId }
+  | { type: "documents" };
 
 /** 모바일에서 한 번에 하나만 보이는 화면. side = 보조화면, main = 메인화면 */
 type Panel = "side" | "main";
@@ -35,6 +37,8 @@ export default function ProfileApp({ age }: { age: ReactNode }) {
   // 모바일은 메인화면에서 시작한다.
   const [panel, setPanel] = useState<Panel>("main");
   const [phase, setPhase] = useState<Phase>("idle");
+  // 지금까지 확인한 키워드 id (페이지를 새로 열면 처음부터 다시 센다)
+  const [viewedIds, setViewedIds] = useState<string[]>([]);
   const viewTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const panelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -60,6 +64,17 @@ export default function ProfileApp({ age }: { age: ReactNode }) {
       setScattering(false);
       setView(next);
     }, SCATTER_MS);
+  }
+
+  function openKeyword(keywordId: string) {
+    setViewedIds((ids) => (ids.includes(keywordId) ? ids : [...ids, keywordId]));
+    goTo({ type: "essay", keywordId });
+  }
+
+  // 아직 확인하지 않은 키워드 중 첫 번째를 연다. 모두 확인했으면 처음 키워드부터 다시 보여 준다.
+  function openNextKeyword() {
+    const next = keywords.find((keyword) => !viewedIds.includes(keyword.id)) ?? keywords[0];
+    openKeyword(next.id);
   }
 
   function selectSection(sectionId: SectionId) {
@@ -104,11 +119,15 @@ export default function ProfileApp({ age }: { age: ReactNode }) {
         {view.type === "cloud" && (
           <KeywordCloud
             scattering={scattering}
-            onSelect={(keywordId) => goTo({ type: "essay", keywordId })}
+            viewedCount={viewedIds.length}
+            onSelect={openKeyword}
+            onNext={openNextKeyword}
+            onReview={() => goTo({ type: "documents" })}
           />
         )}
         {activeKeyword && <EssayView key={activeKeyword.id} keyword={activeKeyword} />}
         {activeSection && <SectionView key={activeSection.id} section={activeSection} />}
+        {view.type === "documents" && <DocumentsView />}
       </main>
     </div>
   );

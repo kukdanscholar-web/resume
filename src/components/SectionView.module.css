@@ -52,12 +52,12 @@
 .details {
   margin-top: 6px;
   padding-left: 14px;
-  border-left: 2px solid rgba(44, 42, 39, 0.18);
+  border-left: 2px solid rgba(93, 159, 214, 0.45);
 }
 
 .details li {
   margin: 4px 0;
-  color: #4b4742;
+  color: #3d5166;
   font-size: 15px;
   line-height: 1.55;
 }

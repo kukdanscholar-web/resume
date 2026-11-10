@@ -7,16 +7,53 @@
   animation: appear 0.6s ease-out both;
 }
 
-.hint {
+/* 위(역량 확인)와 아래(원문 검토)에 놓이는 알약 모양 버튼 */
+.pill {
   position: absolute;
-  bottom: 22px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  text-align: center;
-  color: var(--ink-soft);
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  translate: -50% 0;
+  white-space: nowrap;
+  font-size: 17px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  box-shadow: var(--pill-shadow);
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.pill:hover {
+  background: var(--highlight);
+}
+
+.progress {
+  top: 24px;
+}
+
+.review {
+  bottom: 24px;
+}
+
+.count {
+  padding: 1px 10px;
+  color: #fff;
   font-size: 15px;
-  transition: opacity 0.2s;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.arrow {
+  transition: translate 0.2s ease-out;
+}
+
+.review:hover .arrow {
+  translate: 6px 0;
 }
 
 /*
@@ -26,6 +63,8 @@
  */
 .slot {
   position: absolute;
+  /* 위쪽 버튼과 겹치지 않도록 글씨가 지나가는 영역을 조금 아래로 내린다. */
+  top: calc(64px + var(--y) * 0.82);
   left: 0;
   animation: pass var(--travel) linear infinite;
   animation-delay: var(--start);
@@ -58,7 +97,7 @@
   opacity: 0;
 }
 
-.scattering .hint {
+.scattering .pill {
   opacity: 0;
 }
 
@@ -105,8 +144,20 @@
     font-size: calc(var(--size) * 0.62);
   }
 
-  .hint {
-    bottom: 14px;
+  .pill {
+    padding: 9px 18px;
+    font-size: 15px;
+  }
+
+  .progress {
+    top: 16px;
+  }
+
+  .review {
+    bottom: 16px;
+  }
+
+  .count {
     font-size: 13px;
   }
 }

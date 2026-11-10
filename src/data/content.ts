@@ -52,6 +52,19 @@ export interface Section {
   groups: SectionGroup[];
 }
 
+export interface DocumentPage {
+  src: string;
+  width: number;
+  height: number;
+}
+
+export interface OriginalDocument {
+  id: string;
+  label: string;
+  /** 원문을 쪽마다 그림으로 만든 것. 비어 있으면 "준비 중"으로 표시한다. */
+  pages: DocumentPage[];
+}
+
 export const profile: Profile = {
   name: "김재진",
   role: "행정/사무 · 지식재산권 · 영업/사업",
@@ -74,12 +87,12 @@ export const essay: EssaySegment[] = [
 
 // 키워드와 에세이 조각의 연결은 임시 값이다. 최종 에세이에 맞춰 다시 정한다.
 export const keywords: Keyword[] = [
-  { id: "kw-creativity", label: "창의성", segmentIds: ["s2"], x: 16, y: 8, size: 60, color: "rgba(196, 122, 90, 0.62)", travel: 15, bob: 7 },
-  { id: "kw-expression", label: "표현력", segmentIds: ["s3"], x: 62, y: 22, size: 44, color: "rgba(92, 128, 150, 0.6)", travel: 12, bob: 9 },
-  { id: "kw-presentation", label: "PT능력", segmentIds: ["s5"], x: 38, y: 36, size: 68, color: "rgba(120, 110, 160, 0.55)", travel: 12, bob: 8 },
-  { id: "kw-focus", label: "집중력", segmentIds: ["s6"], x: 74, y: 50, size: 38, color: "rgba(104, 142, 110, 0.65)", travel: 9, bob: 10 },
-  { id: "kw-analysis", label: "분석능력", segmentIds: ["s1"], x: 12, y: 64, size: 46, color: "rgba(90, 104, 128, 0.6)", travel: 9, bob: 9 },
-  { id: "kw-explain", label: "설명력", segmentIds: ["s4"], x: 54, y: 78, size: 54, color: "rgba(186, 142, 70, 0.62)", travel: 12, bob: 7 },
+  { id: "kw-creativity", label: "창의성", segmentIds: ["s2"], x: 16, y: 8, size: 60, color: "rgba(74, 144, 201, 0.72)", travel: 15, bob: 7 },
+  { id: "kw-expression", label: "표현력", segmentIds: ["s3"], x: 62, y: 22, size: 44, color: "rgba(86, 168, 164, 0.72)", travel: 12, bob: 9 },
+  { id: "kw-presentation", label: "PT능력", segmentIds: ["s5"], x: 38, y: 36, size: 68, color: "rgba(108, 122, 196, 0.64)", travel: 12, bob: 8 },
+  { id: "kw-focus", label: "집중력", segmentIds: ["s6"], x: 74, y: 50, size: 38, color: "rgba(110, 164, 214, 0.8)", travel: 9, bob: 10 },
+  { id: "kw-analysis", label: "분석능력", segmentIds: ["s1"], x: 12, y: 64, size: 46, color: "rgba(58, 100, 148, 0.68)", travel: 9, bob: 9 },
+  { id: "kw-explain", label: "설명력", segmentIds: ["s4"], x: 54, y: 78, size: 54, color: "rgba(226, 152, 104, 0.74)", travel: 12, bob: 7 },
 ];
 
 export const sections: Section[] = [
@@ -199,5 +212,25 @@ export const sections: Section[] = [
         items: [{ title: "PPT · Power BI · Claude(GenAI) · Microsoft Office · WIPS(특허 검색 엔진)" }],
       },
     ],
+  },
+];
+
+/** 키워드 구름 화면 아래의 버튼 문구 */
+export const REVIEW_LABEL = "한층 진지하게 검토해보기";
+
+/** 키워드 구름 화면 위의 버튼 문구. 뒤에 "확인한 개수/전체 개수"가 붙는다. */
+export const PROGRESS_LABEL = "지원자 역량 확인하기";
+
+// 원문 그림에는 전화번호가 지워져 있다. 이력서를 바꾸면 그림도 다시 만들어야 한다.
+export const documents: OriginalDocument[] = [
+  {
+    id: "resume",
+    label: "이력서",
+    pages: [{ src: "/resume-1.webp", width: 1428, height: 2021 }],
+  },
+  {
+    id: "portfolio",
+    label: "포트폴리오",
+    pages: [],
   },
 ];

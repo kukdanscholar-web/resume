@@ -10,8 +10,11 @@
 .main {
   position: relative;
   overflow: hidden;
-  background: var(--panel);
-  border: 2.5px solid var(--line);
+  background:
+    linear-gradient(180deg, #edf6fd 0%, var(--panel) 55%) padding-box,
+    var(--frame-border) border-box;
+  border: 3px solid transparent;
+  box-shadow: var(--frame-shadow);
   border-radius: 34px;
 }
 
@@ -24,6 +27,7 @@
   border: 2px solid var(--line);
   border-radius: 999px;
   background: var(--panel);
+  box-shadow: var(--pill-shadow);
   font-size: 15px;
   transition: background 0.15s, transform 0.15s;
 }
@@ -68,6 +72,7 @@
     border: 2px solid var(--line);
     border-radius: 999px;
     background: var(--panel);
+    box-shadow: var(--pill-shadow);
     font-size: 12px;
   }
 

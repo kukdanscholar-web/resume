@@ -1,0 +1,64 @@
+.documents {
+  height: 100%;
+  padding: 76px 6% 40px;
+  overflow-y: auto;
+  animation: appear 0.4s ease-out both;
+}
+
+.document {
+  max-width: 860px;
+  margin: 0 auto 44px;
+}
+
+.title {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 6px 18px;
+  font-size: 20px;
+  font-weight: 400;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  box-shadow: var(--pill-shadow);
+}
+
+.page {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+  background: #fff;
+  border: 1px solid rgba(93, 159, 214, 0.45);
+  box-shadow: 0 10px 26px -10px rgba(47, 110, 165, 0.4);
+}
+
+.empty {
+  margin: 0;
+  padding: 36px 0;
+  text-align: center;
+  color: var(--ink-soft);
+  border: 2px dashed rgba(93, 159, 214, 0.55);
+  border-radius: 18px;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .documents {
+    padding: 62px 12px 24px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .documents {
+    animation: none;
+  }
+}
