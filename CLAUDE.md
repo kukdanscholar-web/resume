@@ -11,7 +11,7 @@ Next.js 관련 규칙은 [AGENTS.md](AGENTS.md)도 함께 따른다 (이 버전�
 - 배포: Vercel 무료(Hobby). GitHub `main`에 푸시하면 자동 배포된다. 서버에 파일을 저장할 수 없다.
 - 실행 환경: Node.js 26, npm
 - 린트: ESLint (`eslint-config-next`)
-- 대상 환경: 데스크탑 브라우저만. 모바일 반응형은 만들지 않는다.
+- 대상 환경: 데스크탑과 모바일. 너비 767px 이하를 모바일로 본다 (CSS `@media (max-width: 767px)`와 `ProfileApp.tsx`의 `MOBILE_QUERY`를 같은 값으로 유지).
 
 ## 명령어
 - 개발 서버: `npm run dev` → http://localhost:3000
@@ -43,7 +43,7 @@ firstpaper_display.png   # 화면 초안 (참고용)
 12. 이미지는 `next/image`를 사용한다.
 
 ## 작업 방식
-- 변경 후에는 `npm run lint`를 통과시키고, 개발 서버를 띄워 브라우저에서 직접 동작을 확인한다.
+- 변경 후에는 `npm run lint`를 통과시키고, 개발 서버를 띄워 데스크탑 크기와 모바일 크기 모두에서 직접 동작을 확인한다.
 - 사용자가 "기억만 할 것"이라고 한 내용은 구현하지 않고 메모리에만 기록한다.
 - 구현은 사용자가 별도로 지시할 때만 시작한다.
 - 사용자는 책을 보며 실습 중인 입문자다. 설명은 쉬운 말로 한다.

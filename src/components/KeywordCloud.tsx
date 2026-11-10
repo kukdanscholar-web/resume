@@ -31,7 +31,7 @@ export default function KeywordCloud({ scattering, onSelect }: KeywordCloudProps
             className={styles.word}
             style={
               {
-                fontSize: keyword.size,
+                "--size": `${keyword.size}px`,
                 color: keyword.color,
                 "--bob": `${keyword.bob}s`,
                 "--phase": `${-index * 1.3}s`,

@@ -89,3 +89,21 @@
     background-size: 100% 55%;
   }
 }
+
+@media (max-width: 767px) {
+  .section {
+    padding: 64px 20px 24px;
+  }
+
+  .groups {
+    columns: 1;
+  }
+
+  .item {
+    font-size: 17px;
+  }
+
+  .details li {
+    font-size: 14px;
+  }
+}

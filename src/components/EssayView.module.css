@@ -46,3 +46,16 @@
     background-size: 100% 58%;
   }
 }
+
+@media (max-width: 767px) {
+  .essay {
+    justify-content: flex-start;
+    padding: 64px 22px 28px;
+    overflow-y: auto;
+  }
+
+  .text {
+    font-size: 19px;
+    line-height: 1.85;
+  }
+}

@@ -95,3 +95,16 @@
     animation: none;
   }
 }
+
+@media (max-width: 767px) {
+  .sidebar {
+    gap: 16px;
+    padding: 24px 20px;
+    border-radius: 26px;
+  }
+
+  .photo {
+    width: 150px;
+    height: 150px;
+  }
+}

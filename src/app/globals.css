@@ -42,3 +42,9 @@ button:focus-visible {
   outline-offset: 4px;
   border-radius: 8px;
 }
+
+@media (max-width: 767px) {
+  body {
+    min-width: 0;
+  }
+}

@@ -32,3 +32,141 @@
   background: var(--highlight);
   transform: translateX(-2px);
 }
+
+/* 데스크탑에서는 감싸는 상자를 없는 것처럼 취급해 Sidebar가 그대로 격자에 놓이게 한다. */
+.side {
+  display: contents;
+}
+
+.toggle {
+  display: none;
+}
+
+/* ───────── 모바일: 한 번에 한 화면만 보이고, 상단 토글로 오간다 ───────── */
+@media (max-width: 767px) {
+  .frame {
+    display: block;
+    position: relative;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .toggle {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    width: 112px;
+    height: 32px;
+    margin-left: -56px;
+    padding: 0;
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    font-size: 12px;
+  }
+
+  .toggleLabel {
+    position: relative;
+    text-align: center;
+  }
+
+  .knob {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    width: calc(50% - 2px);
+    border-radius: 999px;
+    background: var(--highlight);
+    transition: translate 0.3s cubic-bezier(0.3, 1.4, 0.5, 1);
+  }
+
+  .frame[data-panel="main"] .knob {
+    translate: 100% 0;
+  }
+
+  /* 처음 2초 동안은 보조화면과 토글 버튼 모두 눌리지 않는다. */
+  .frame[data-intro="true"] .side,
+  .frame[data-intro="true"] .toggle {
+    pointer-events: none;
+  }
+
+  /* 화면을 삼키거나 내뱉을 때 버튼이 살짝 부푼다. */
+  .frame[data-phase="out"] .toggle,
+  .frame[data-phase="in"] .toggle {
+    animation: gulp 0.38s ease-in-out;
+  }
+
+  .side,
+  .main {
+    position: absolute;
+    inset: 56px 12px 12px;
+    display: block;
+    /* 버튼 위치(화면 상단 가운데)를 중심으로 줄어들고 커진다. */
+    transform-origin: 50% -28px;
+  }
+
+  .side > * {
+    height: 100%;
+  }
+
+  .frame[data-panel="main"] .side,
+  .frame[data-panel="side"] .main {
+    display: none;
+  }
+
+  .frame[data-phase="out"] .side,
+  .frame[data-phase="out"] .main {
+    animation: suckIn 0.38s cubic-bezier(0.6, 0, 0.9, 0.3) forwards;
+  }
+
+  .frame[data-phase="in"] .side,
+  .frame[data-phase="in"] .main {
+    animation: comeOut 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+  }
+
+  .main {
+    border-radius: 26px;
+  }
+
+  .back {
+    top: 14px;
+    left: 14px;
+    padding: 6px 13px;
+    font-size: 13px;
+  }
+}
+
+@keyframes suckIn {
+  to {
+    transform: scale(0.03);
+    opacity: 0;
+  }
+}
+
+@keyframes comeOut {
+  from {
+    transform: scale(0.03);
+    opacity: 0;
+  }
+}
+
+@keyframes gulp {
+  50% {
+    scale: 1.18;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .frame[data-phase] .side,
+  .frame[data-phase] .main,
+  .frame[data-phase] .toggle {
+    animation: none;
+  }
+}

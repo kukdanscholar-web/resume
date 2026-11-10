@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { keywords, sections, type SectionId } from "@/data/content";
 import Sidebar from "./Sidebar";
 import KeywordCloud from "./KeywordCloud";
@@ -13,38 +13,102 @@ type View =
   | { type: "essay"; keywordId: string }
   | { type: "section"; sectionId: SectionId };
 
+/** 모바일에서 한 번에 하나만 보이는 화면. side = 보조화면, main = 메인화면 */
+type Panel = "side" | "main";
+/** out = 현재 화면이 버튼으로 빨려 들어가는 중, in = 새 화면이 버튼에서 나오는 중 */
+type Phase = "idle" | "out" | "in";
+
 // 구름이 좌우로 흩어지는 시간(ms). KeywordCloud.module.css의 전환 시간과 맞춘다.
 const SCATTER_MS = 520;
+// 화면이 버튼으로 빨려 들어가거나 나오는 시간(ms). ProfileApp.module.css의 애니메이션 시간과 맞춘다.
+const PANEL_MS = 380;
+// 모바일에서 처음에 보조화면을 보여 주는 시간(ms)
+const INTRO_MS = 2000;
+// ProfileApp.module.css의 모바일 기준 너비와 맞춘다.
+const MOBILE_QUERY = "(max-width: 767px)";
+
+function isMobile() {
+  return window.matchMedia(MOBILE_QUERY).matches;
+}
 
 export default function ProfileApp({ age }: { age: ReactNode }) {
   const [view, setView] = useState<View>({ type: "cloud" });
   const [scattering, setScattering] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [panel, setPanel] = useState<Panel>("side");
+  const [phase, setPhase] = useState<Phase>("idle");
+  // 모바일의 첫 2초(보조화면을 보여 주는 동안)에는 아무것도 누를 수 없다.
+  const [intro, setIntro] = useState(true);
+  const viewTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const panelTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function switchPanel(target: Panel) {
+    if (panelTimer.current) clearTimeout(panelTimer.current);
+    setPhase("out");
+    panelTimer.current = setTimeout(() => {
+      setPanel(target);
+      setPhase("in");
+      panelTimer.current = setTimeout(() => setPhase("idle"), PANEL_MS);
+    }, PANEL_MS);
+  }
+
+  // 모바일에서는 보조화면을 2초 보여 준 뒤 메인화면으로 넘어간다.
+  useEffect(() => {
+    panelTimer.current = setTimeout(() => {
+      setIntro(false);
+      if (isMobile()) switchPanel("main");
+    }, INTRO_MS);
+    return () => {
+      if (panelTimer.current) clearTimeout(panelTimer.current);
+    };
+  }, []);
 
   function goTo(next: View) {
-    if (timer.current) clearTimeout(timer.current);
+    if (viewTimer.current) clearTimeout(viewTimer.current);
     if (view.type !== "cloud" || next.type === "cloud") {
       setScattering(false);
       setView(next);
       return;
     }
     setScattering(true);
-    timer.current = setTimeout(() => {
+    viewTimer.current = setTimeout(() => {
       setScattering(false);
       setView(next);
     }, SCATTER_MS);
+  }
+
+  function selectSection(sectionId: SectionId) {
+    // 모바일의 보조화면에서는 메인화면이 가려져 있으므로, 구름 흩어짐 없이 바로 바꾸고 메인화면으로 넘어간다.
+    if (isMobile() && panel === "side") {
+      if (viewTimer.current) clearTimeout(viewTimer.current);
+      setScattering(false);
+      setView({ type: "section", sectionId });
+      switchPanel("main");
+      return;
+    }
+    goTo({ type: "section", sectionId });
   }
 
   const activeKeyword = view.type === "essay" ? keywords.find((keyword) => keyword.id === view.keywordId) : undefined;
   const activeSection = view.type === "section" ? sections.find((section) => section.id === view.sectionId) : undefined;
 
   return (
-    <div className={styles.frame}>
-      <Sidebar
-        age={age}
-        activeSectionId={activeSection?.id}
-        onSelect={(sectionId) => goTo({ type: "section", sectionId })}
-      />
+    <div className={styles.frame} data-panel={panel} data-phase={phase} data-intro={intro}>
+      <button
+        type="button"
+        className={styles.toggle}
+        role="switch"
+        aria-checked={panel === "main"}
+        aria-label="프로필 화면과 소개 화면 전환"
+        disabled={phase !== "idle"}
+        onClick={() => switchPanel(panel === "side" ? "main" : "side")}
+      >
+        <span className={styles.knob} aria-hidden="true" />
+        <span className={styles.toggleLabel}>프로필</span>
+        <span className={styles.toggleLabel}>소개</span>
+      </button>
+      <div className={styles.side}>
+        <Sidebar age={age} activeSectionId={activeSection?.id} onSelect={selectSection} />
+      </div>
       <main className={styles.main}>
         {view.type !== "cloud" && (
           <button type="button" className={styles.back} onClick={() => goTo({ type: "cloud" })}>
