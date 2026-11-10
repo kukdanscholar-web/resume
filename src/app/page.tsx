@@ -1,14 +1,13 @@
 import { Suspense } from "react";
 import { connection } from "next/server";
 import ProfileApp from "@/components/ProfileApp";
+import { BIRTH_DATE } from "@/data/birth";
 import { calculateAges, todayInSeoul } from "@/lib/age";
 
-// 생년월일은 서버에서만 읽고, 화면에는 계산된 나이만 내려보낸다.
+// 나이는 접속한 날짜를 기준으로 서버에서 계산한다.
 async function Age() {
   await connection();
-  const birth = process.env.BIRTH_DATE;
-  if (!birth) return null;
-  const ages = calculateAges(birth, todayInSeoul());
+  const ages = calculateAges(BIRTH_DATE, todayInSeoul());
   return (
     <>
       {ages.korean}세(만 {ages.international}세)
